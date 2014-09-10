@@ -1,5 +1,8 @@
 import random
 import json
+import os
+
+moduledir = os.path.dirname(os.path.abspath('__file__'))
 
 def index():
     return dict(message=T('Welcome to our Crowd Sourcing Platform!'))
@@ -68,10 +71,28 @@ def recordAnnotation():
 def reset():
     db(db.once).delete()
     db(db.approved).delete()
-    db.once.insert(sentence=["this", "is", "shit", "and", "smack1"], conjunction=[3], highlighted=[2, 4])
-    db.once.insert(sentence=["this", "is", "shit", "and", "smack2"], conjunction=[3], highlighted=[2, 4])
-    db.once.insert(sentence=["this", "is", "shit", "and", "smack3"], conjunction=[3], highlighted=[2, 4])
-    db.once.insert(sentence=["this", "is", "shit", "and", "smack4"], conjunction=[3], highlighted=[2, 4])
+#    db.once.insert(sentence=["this", "is", "shit", "and", "smack1"], conjunction=[3], highlighted=[2, 4])
+#    db.once.insert(sentence=["this", "is", "shit", "and", "smack2"], conjunction=[3], highlighted=[2, 4])
+#    db.once.insert(sentence=["this", "is", "shit", "and", "smack3"], conjunction=[3], highlighted=[2, 4])
+#    db.once.insert(sentence=["this", "is", "shit", "and", "smack4"], conjunction=[3], highlighted=[2, 4])
+    
+    f = open(os.path.join(moduledir, 'applications/lelui/controllers/sentences'), 'r')
+    
+    num = int(f.readline().strip())
+    for _ in xrange(num):
+        n = int(f.readline().strip())
+        sentence = [f.readline().strip() for i in xrange(n)]
+        m = int(f.readline().strip())
+        for conj in xrange(m):
+            conjunction=[int(f.readline().strip())]
+            conjuncts=int(f.readline().strip())
+            highlighted = []
+            for x in xrange(conjuncts):
+                l, r = map(int, f.readline().split())
+                for pos in xrange(l, r+1):
+                    highlighted.append(pos)
+            db.once.insert(sentence=sentence, conjunction=conjunction, highlighted=highlighted)
+    f.close()
     return dict()
 
 def lis():
