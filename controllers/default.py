@@ -27,12 +27,12 @@ def getAnnotation(data):
     for i in xrange(len(words)):
         if j <> len(separators) and i == separators[j]:
             j += 1
-            ret += "<span class='word red' id='" + str(i) + "'>" + words[i] + "&nbsp;</span>"
+            ret += "<span class='word red' id='" + str(i) + "'>" + words[i] + " </span>"
         elif k <> len(high) and i == high[k]:
             k += 1
-            ret += "<span class='word high' id='" + str(i) + "'>" + words[i] + "&nbsp;</span>"
+            ret += "<span class='word high' id='" + str(i) + "'>" + words[i] + " </span>"
         else:
-            ret += "<span class='word' id='" + str(i) + "'>" + words[i] + "&nbsp;</span>"
+            ret += "<span class='word' id='" + str(i) + "'>" + words[i] + " </span>"
     ret += "</p>"
     return XML(ret)
 
